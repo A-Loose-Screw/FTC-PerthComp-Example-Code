@@ -68,6 +68,8 @@ public class Auto_4788_PhoneCamera extends LinearOpMode
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
+
+    
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
 
@@ -94,6 +96,15 @@ public class Auto_4788_PhoneCamera extends LinearOpMode
         detector.ratioScorer.perfectRatio = 1.0; // Ratio adjustment
 
         detector.enable(); // Start the detector!
+
+
+        leftDrive  = hardwareMap.get(DcMotor.class, "left");
+        rightDrive = hardwareMap.get(DcMotor.class, "right");
+
+
+
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
 
 
