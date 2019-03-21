@@ -1,6 +1,6 @@
 # Perth First Tech Challenge Example Code
-Author CJBuchel
-Email: connorbuchel@gmail.com
+Author CJBuchel;
+Email: connorbuchel@gmail.com;
 if any issues arrise you can contact me by either my email, or if you are part of the `FIRST Tech Challenge WA Coaches Group` on facebook. You can just message me
 ## Discription
 This repository provides an example code for First Tech Challenge teams who are either new to programming in FTC Java and/or can give a better base code to build up on. 
