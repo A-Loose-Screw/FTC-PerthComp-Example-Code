@@ -14,7 +14,7 @@ The setup can be quite a nuisance but once completed it's rarely seen again, To 
 ### [TeamCode](ftc_app-4.3/TeamCode)
 To run code use android studio and import the required tools that you wish to use. For instance Vision Tracking requires you to import DogeCV. Which is included into the files. This can provide a basic tutorial of how to use the DogeCV library: https://www.youtube.com/watch?v=_i-EU3v9CRc
 
-### [Current App Version Info](ftc_app-4.3) (This is the origin information from the official website that the base was provided, it may include conflicting installation methods and different file structures. See setup for this Repositories Instillation)
+### [Current App Version Info](ftc_app-4.3) (This is the origin information from the official website that the base was provided, it may include conflicting installation methods and different file structures. See #Setup for this Repositories Instillation)
 
 
 ### [Coaches] 
