@@ -5,7 +5,7 @@ This repository provides an example code for First Tech Challenge teams who are 
 
 ## How to use 
 
-### (Teams)
+### ## [Teamcode](teamcode)
 To run code use android studio and import the required tools that you wish to use. For instance Vision Tracking requires you to import DogeCV. Which is included into the files. This can provide a basic tutorial of how to use the DogeCV library: https://www.youtube.com/watch?v=_i-EU3v9CRc
 
 
