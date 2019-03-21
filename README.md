@@ -14,6 +14,8 @@ The setup can be quite a nuisance but once completed is rarely seen again, To se
 ### [TeamCode](ftc_app-4.3/TeamCode)
 To run code use android studio and import the required tools that you wish to use. For instance Vision Tracking requires you to import DogeCV. Which is included into the files. This can provide a basic tutorial of how to use the DogeCV library: https://www.youtube.com/watch?v=_i-EU3v9CRc
 
+### [Current App Version Info](ftc_app-4.3)
+
 
 ### [Coaches] 
 - For Windows CommandPrompt/ PowerShell Debugging and installs, open a terminal of your choice in the directory that your code is located and type `.\gradlew` (The required JAVA_HOME for this build is jre1.8, Any higher will cause a prompt for a version change)
