@@ -1,11 +1,13 @@
 # Perth First Tech Challenge Example Code
-
+Author CJBuchel
+Email: connorbuchel@gmail.com
+if any issues arrise you can contact me by either my email, or if you are part of the `WA First Tech Challenge Coaches` group on facebook. You can just message me
 ## Discription
 This repository provides an example code for First Tech Challenge teams who are either new to programming in FTC Java and/or can give a better base code to build up on. 
 
-## [Setup](Setup)
-
 ## How to use 
+
+## [Setup](Setup)
 
 ### [TeamCode](TeamCode)
 To run code use android studio and import the required tools that you wish to use. For instance Vision Tracking requires you to import DogeCV. Which is included into the files. This can provide a basic tutorial of how to use the DogeCV library: https://www.youtube.com/watch?v=_i-EU3v9CRc
