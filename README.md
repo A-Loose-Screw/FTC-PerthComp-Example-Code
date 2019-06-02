@@ -8,7 +8,7 @@ This repository provides an example code for First Tech Challenge teams who are 
 
 ## How to use 
 
-## [Setup](Setup)
+## [Setup](ftc_app-4.3/TeamCode)
 The setup can be quite a nuisance but once completed it's rarely seen again, To use this SDK, download/clone the entire project to your local computer. To setup the code you can use the recommended way of installing android studio, then install java and set up the dependencies. Or you could be a total baller and set it up manually and use the gradle files to build and install the code using your preferred IDE. Click Setup link for in depth information on both options.
 
 ### [TeamCode](ftc_app-4.3/TeamCode)
