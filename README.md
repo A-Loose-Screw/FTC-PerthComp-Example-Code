@@ -17,7 +17,7 @@ To run code use android studio and import the required tools that you wish to us
 ### [Current App Version Info](ftc_app-4.3) (This is the origin information from the official website that the base was provided, it may include conflicting installation methods and different file structures. See #Setup for this repositories installation )
 
 
-### [Building] 
+### [Gradle Building] 
 - For Windows CommandPrompt/ PowerShell Debugging and installs, open a terminal of your choice in the directory that your code is located and type `.\gradlew` (The required JAVA_HOME for this build is jre1.8, Any higher will cause a prompt for a version change)
 
 - If installed/build is successful you can attempt to build your code via `.\gradlew teamcode:build` 
