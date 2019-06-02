@@ -1,5 +1,3 @@
-
-
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -58,8 +56,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 //Developed By GitHub User CJBuchel <https://github.com/CJBuchel>
+//And addons Sourced by DogeCV <https://github.com/dogecv/DogeCV>
 
-@Autonomous(name="Auto_Example_Phone_Camera")
+@Autonomous(name="Auto Example Phone Camera")
 
 public class Auto_4788_PhoneCamera extends LinearOpMode
 {

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -48,14 +47,21 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 
-
 //Developed By GitHub User CJBuchel <https://github.com/CJBuchel>
-//And addons Sourced by DogeCV <https://github.com/dogecv/DogeCV>
 
-@Autonomous(name="Auto Example External Camera")
+/*The Origin of this code was developed for the robot that curtin used for demos. Because of this, the code is a lot more complicated then it's brother <Drive_4788_GenericSteering>
+This code offers a semi auto semi telop system, using an external camera to automatically detect gold cubes, and allows steering for drivers.
+However i no longer support this code, and it will not be updated regularly like it's counterparts, The code is not as structured nor as explained and was built
+solely to test and demo the robots. use to your discretion.
+*/
+
+
+
+
+@TeleOp(name="Drive 4788 DemoBot", group="Linear Opmode")
 
 //@Disabled
-public class Auto_4788_ExternalCamera extends LinearOpMode {
+public class Drive_DemoBot extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -65,8 +71,8 @@ public class Auto_4788_ExternalCamera extends LinearOpMode {
     
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
-    //private DcMotor hexDrive1 = null;
-    //private DcMotor hexDrive2 = null;
+    private DcMotor hexDrive1 = null;
+    private DcMotor hexDrive2 = null;
 
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
     // Valid choices are:  BACK or FRONT
@@ -177,8 +183,10 @@ public class Auto_4788_ExternalCamera extends LinearOpMode {
         // step (using the FTC Robot Controller app on the phone).
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
-        //hexDrive1 = hardwareMap.get(DcMotor.class, "hex_motor1");
-        //hexDrive2 = hardwareMap.get(DcMotor.class, "hex_motor2");
+        /*
+        hexDrive1 = hardwareMap.get(DcMotor.class, "hex_motor1");
+        hexDrive2 = hardwareMap.get(DcMotor.class, "hex_motor2");
+        */
 
         
 
@@ -187,11 +195,12 @@ public class Auto_4788_ExternalCamera extends LinearOpMode {
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        //hexDrive1.setDirection(DcMotor.Direction.FORWARD);
-        //hexDrive1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        //hexDrive2.setDirection(DcMotor.Direction.FORWARD);
-        //hexDrive2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        /*
+        hexDrive1.setDirection(DcMotor.Direction.FORWARD);
+        hexDrive1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hexDrive2.setDirection(DcMotor.Direction.FORWARD);
+        hexDrive2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        */
 
         
 
@@ -205,7 +214,7 @@ public class Auto_4788_ExternalCamera extends LinearOpMode {
 
 
 
-        telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral?
+            telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral?
         telemetry.addData("X Pos" , detector.getXPosition()); // Gold X position.
         targetVisible = false;
         for (VuforiaTrackable trackable : allTrackables) {
@@ -239,18 +248,17 @@ public class Auto_4788_ExternalCamera extends LinearOpMode {
         }
 
 
-        //===================================================
-        //Gold Vision Tracking Start /Put Your Main Code here
-        //===================================================
-        double goal = 300;
-        double Rgoal = 350;
-        double Lgoal = 250;
-
-        double kP = -0.01;
+        //====================================
+        //Gold Vision Tracking Start
+        //====================================
+        double goal = 290;
+        double kP = 0.01;
         double output;
         double error;
         double visionRightPowerStraight = 1.0;
         double visionLeftPowerStraight = 1.0;
+       
+        while(gamepad1.a){
 
 
 
@@ -260,22 +268,20 @@ public class Auto_4788_ExternalCamera extends LinearOpMode {
 
             }
 
-            if (detector.getXPosition() > Rgoal) { // If object is on the right 
+            if (detector.getXPosition() > 290) { // If object is on the right 
                 error = goal - detector.getXPosition();
 
                 output = kP * error;
     
                 leftDrive.setPower(output);
-                rightDrive.setPower(-output);
             }
 
-            if (detector.getXPosition() < Lgoal) { // If object is on the left
+            if (detector.getXPosition() < 290) { // If object is on the left
                 error = goal - detector.getXPosition();
 
                 output = kP * error;
     
                 leftDrive.setPower(-output);
-                rightDrive.setPower(output);
                 
             }
            
@@ -283,10 +289,127 @@ public class Auto_4788_ExternalCamera extends LinearOpMode {
 
 
 
+
+        //double visionLeftPowerClose = 0.2;
+        //double visionRightPowerClose = 0.2;
+        //double visionRightPowerFar = 0.4;
+        //double visionLeftPowerFar = 0.4;
+        //double visionRightPowerStraight = 0.6;
+        //double visionLeftPowerStraight = 0.6;
+            /*
+            if (targetVisible = true) {
+                leftDrive.setPower(-visionLeftPowerStraight);
+                rightDrive.setPower(-visionRightPowerStraight);
+            }
+            if (detector.getXPosition() < 350) {
+                leftDrive.setPower(-visionLeftPowerStraight);
+                rightDrive.setPower(-visionRightPowerStraight);
+            }
+            if (detector.getXPosition() > 230) {
+                leftDrive.setPower(-visionLeftPowerStraight);
+                rightDrive.setPower(-visionRightPowerStraight);
+            }
+            //Far
+            if(detector.getXPosition() > 480){
+                leftDrive.setPower(-visionLeftPowerFar);
+                rightDrive.setPower(visionRightPowerFar);
+            }
+            
+            
+            if(detector.getXPosition() < 100){
+                leftDrive.setPower(visionLeftPowerFar);
+                rightDrive.setPower(-visionRightPowerFar);
+            }
+            //close
+            if(detector.getXPosition() > 350){
+                leftDrive.setPower(-visionLeftPowerClose);   //230 350 = center
+                rightDrive.setPower(visionRightPowerClose);
+            }
+            
+            
+            if(detector.getXPosition() < 230){
+                leftDrive.setPower(visionLeftPowerClose);
+                rightDrive.setPower(-visionRightPowerClose);
+            }
+            */
+
+
+
+            /*else{
+                leftDrive.setPower(-visionLeftPower);
+                rightDrive.setPower(-visionRightPower);
+            }*/
+            //====================================
+            //Gold Vision Tracking Start
+            //====================================
+            
+            
+
+        }
+
+
+
+
+            // --------------------------------------------------------------------------------------------------------
+            // Drive Motor Section
+            // --------------------------------------------------------------------------------------------------------
+
+            // Setup a variable for each drive wheel to save power level for telemetry
+            double leftPower;
+            double rightPower;
+          
+
+
+                // Choose to drive using either Tank Mode, or POV Mode
+            // Comment out the method that's not used.  The default below is POV.
+
+            // POV Mode uses left stick to go forward, and right stick to turn.
+            // - This uses basic math to combine motions and is easier to drive straight..3.\10
+            double drive = -gamepad1.left_stick_y;
+            double turn  = gamepad1.right_stick_x;
+
+            leftPower    = Range.clip(drive + turn, 0.2, 1.0) ;
+            rightPower   = Range.clip(drive + turn, 0.2, 1.0) ;
+
+            leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+
+            // Tank Mode uses one stick to control each wheel.
+            // - This requires no math, but it is hard to drive forward slowly and keep straight.
+            //leftPower  = gamepad1.left_stick_y ;
+            //rightPower = gamepad1.right_stick_y ;
+
+            // Send calculated power to wheels
+            leftDrive.setPower(-leftPower);
+            rightDrive.setPower(-rightPower);
+
+
+
+
+
+
+            /*
+            // --------------------------------------------------------------------------------------------------------
+            // Extra Motor Section
+            // --------------------------------------------------------------------------------------------------------
+            // Assigns 0% power to hex_motors/ arm power, x and x for low power, a and b for high power.
+            float armPower = 0;
+            if (gamepad1.x) armPower += 0.3; // assigns %30 power when press x
+            if (gamepad1.y) armPower -= 0.3;
+            //if (gamepad1.a) armPower += 1.0; // assigns %100 power when press a
+            //if (gamepad1.b) armPower -= 1.0;
+            hexDrive1.setPower(armPower); // sets motor power to gamepad button.
+            hexDrive2.setPower(-armPower);
+            */
+
+
+
+
+
             // ---------------------------------------------------------------------------------
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            //telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();
         }
     }
