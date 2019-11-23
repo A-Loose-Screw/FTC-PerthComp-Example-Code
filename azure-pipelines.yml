@@ -24,7 +24,7 @@ jobs:
   - template: azure-init.yml
   - task: Gradle@2
     inputs:
-      workingDirectory: 'ftc_app-4.3'
+      workingDirectory: /ftc_app-4.3
       gradleWrapperFile: 'gradlew'
       gradleOptions: '-Xmx3072m'
       publishJUnitResults: false
@@ -38,7 +38,7 @@ jobs:
   steps:
   - task: Gradle@2
     inputs:
-      workingDirectory: 'ftc_app-4.3'
+      workingDirectory: /ftc_app-4.3
       gradleWrapperFile: 'gradlew'
       gradleOptions: '-Xmx3072m'
       javaHomeOption: 'JDKVersion'
@@ -55,7 +55,7 @@ jobs:
   - template: azure-init.yml
   - task: Gradle@2
     inputs:
-      workingDirectory: 'ftc_app-4.3'
+      workingDirectory: /ftc_app-4.3
       gradleWrapperFile: 'gradlew'
       gradleOptions: '-Xmx3072m'
       publishJUnitResults: false
@@ -70,7 +70,7 @@ jobs:
   - template: azure-init.yml
   - task: Gradle@2
     inputs:
-      workingDirectory: 'ftc_app-4.3'
+      workingDirectory: /ftc_app-4.3
       gradleWrapperFile: 'gradlew'
       gradleOptions: '-Xmx3072m'
       publishJUnitResults: false
@@ -84,7 +84,7 @@ jobs:
   steps:
   - task: Gradle@2
     inputs:
-      workingDirectory: 'ftc_app-4.3'
+      workingDirectory: /ftc_app-4.3
       gradleWrapperFile: 'gradlew'
       gradleOptions: '-Xmx3072m'
       javaHomeOption: 'JDKVersion'
@@ -101,7 +101,7 @@ jobs:
   - template: azure-init.yml
   - task: Gradle@2
     inputs:
-      workingDirectory: 'ftc_app-4.3'
+      workingDirectory: /ftc_app-4.3
       gradleWrapperFile: 'gradlew'
       gradleOptions: '-Xmx3072m'
       publishJUnitResults: false
