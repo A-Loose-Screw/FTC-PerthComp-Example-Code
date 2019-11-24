@@ -36,7 +36,6 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-  workingDirectory: $(Build.SourcesDirectory)
   - task: Gradle@2
     inputs:
       workingDirectory: '$(Build.SourcesDirectory)/ftc_app-4.3/'
@@ -53,7 +52,6 @@ jobs:
   pool:
     vmImage: 'macOS-10.13'
   steps:
-  workingDirectory: $(Build.SourcesDirectory)
   - template: azure-init.yml
   - task: Gradle@2
     inputs:
