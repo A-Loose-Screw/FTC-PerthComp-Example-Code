@@ -215,137 +215,77 @@ public class Drive_DemoBot extends LinearOpMode {
 
 
             telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral?
-        telemetry.addData("X Pos" , detector.getXPosition()); // Gold X position.
-        targetVisible = false;
-        for (VuforiaTrackable trackable : allTrackables) {
-            if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
-                telemetry.addData("Visible Target", trackable.getName());
-                targetVisible = true;
+            telemetry.addData("X Pos" , detector.getXPosition()); // Gold X position.
+            targetVisible = false;
+            for (VuforiaTrackable trackable : allTrackables) {
+                if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+                    telemetry.addData("Visible Target", trackable.getName());
+                    targetVisible = true;
 
-                // getUpdatedRobotLocation() will return null if no new information is available since
-                // the last time that call was made, or if the trackable is not currently visible.
-                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
-                if (robotLocationTransform != null) {
-                    lastLocation = robotLocationTransform;
+                    // getUpdatedRobotLocation() will return null if no new information is available since
+                    // the last time that call was made, or if the trackable is not currently visible.
+                    OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                    if (robotLocationTransform != null) {
+                        lastLocation = robotLocationTransform;
+                    }
+                    break;
                 }
-                break;
-            }
-        }
-
-        // Provide feedback as to where the robot is located (if we know).
-        if (targetVisible) {
-            // express position (translation) of robot in inches.
-            VectorF translation = lastLocation.getTranslation();
-            telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                    translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
-
-            // express the rotation of the robot in degrees.
-            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-            telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
-        }
-        else {
-            telemetry.addData("Visible Target", "none");
-        }
-
-
-        //====================================
-        //Gold Vision Tracking Start
-        //====================================
-        double goal = 290;
-        double kP = 0.01;
-        double output;
-        double error;
-        double visionRightPowerStraight = 1.0;
-        double visionLeftPowerStraight = 1.0;
-       
-        while(gamepad1.a){
-
-
-
-            if (targetVisible = true) { // If object is directly in front of it
-                leftDrive.setPower(-visionLeftPowerStraight);
-                rightDrive.setPower(-visionRightPowerStraight);
-
             }
 
-            if (detector.getXPosition() > 290) { // If object is on the right 
-                error = goal - detector.getXPosition();
+            // Provide feedback as to where the robot is located (if we know).
+            if (targetVisible) {
+                // express position (translation) of robot in inches.
+                VectorF translation = lastLocation.getTranslation();
+                telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
 
-                output = kP * error;
-    
-                leftDrive.setPower(output);
+                // express the rotation of the robot in degrees.
+                Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+            }
+            else {
+                telemetry.addData("Visible Target", "none");
             }
 
-            if (detector.getXPosition() < 290) { // If object is on the left
-                error = goal - detector.getXPosition();
 
-                output = kP * error;
-    
-                leftDrive.setPower(-output);
-                
-            }
-           
-
-
-
-
-
-        //double visionLeftPowerClose = 0.2;
-        //double visionRightPowerClose = 0.2;
-        //double visionRightPowerFar = 0.4;
-        //double visionLeftPowerFar = 0.4;
-        //double visionRightPowerStraight = 0.6;
-        //double visionLeftPowerStraight = 0.6;
-            /*
-            if (targetVisible = true) {
-                leftDrive.setPower(-visionLeftPowerStraight);
-                rightDrive.setPower(-visionRightPowerStraight);
-            }
-            if (detector.getXPosition() < 350) {
-                leftDrive.setPower(-visionLeftPowerStraight);
-                rightDrive.setPower(-visionRightPowerStraight);
-            }
-            if (detector.getXPosition() > 230) {
-                leftDrive.setPower(-visionLeftPowerStraight);
-                rightDrive.setPower(-visionRightPowerStraight);
-            }
-            //Far
-            if(detector.getXPosition() > 480){
-                leftDrive.setPower(-visionLeftPowerFar);
-                rightDrive.setPower(visionRightPowerFar);
-            }
-            
-            
-            if(detector.getXPosition() < 100){
-                leftDrive.setPower(visionLeftPowerFar);
-                rightDrive.setPower(-visionRightPowerFar);
-            }
-            //close
-            if(detector.getXPosition() > 350){
-                leftDrive.setPower(-visionLeftPowerClose);   //230 350 = center
-                rightDrive.setPower(visionRightPowerClose);
-            }
-            
-            
-            if(detector.getXPosition() < 230){
-                leftDrive.setPower(visionLeftPowerClose);
-                rightDrive.setPower(-visionRightPowerClose);
-            }
-            */
-
-
-
-            /*else{
-                leftDrive.setPower(-visionLeftPower);
-                rightDrive.setPower(-visionRightPower);
-            }*/
             //====================================
             //Gold Vision Tracking Start
             //====================================
-            
-            
+            double goal = 290;
+            double kP = 0.01;
+            double output;
+            double error;
+            double visionRightPowerStraight = 1.0;
+            double visionLeftPowerStraight = 1.0;
+       
+            while(gamepad1.a){
 
-        }
+
+
+                if (targetVisible = true) { // If object is directly in front of it
+                    leftDrive.setPower(-visionLeftPowerStraight);
+                    rightDrive.setPower(-visionRightPowerStraight);
+
+                }
+
+                if (detector.getXPosition() > 290) { // If object is on the right 
+                    error = goal - detector.getXPosition();
+
+                    output = kP * error;
+        
+                    leftDrive.setPower(output);
+                }
+
+                if (detector.getXPosition() < 290) { // If object is on the left
+                    error = goal - detector.getXPosition();
+
+                    output = kP * error;
+        
+                    leftDrive.setPower(-output);
+                    
+                }
+
+            }
 
 
 

@@ -60,8 +60,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Autonomous(name="Auto Example Phone Camera")
 
-public class Auto_4788_PhoneCamera extends LinearOpMode
-{
+public class Auto_4788_PhoneCamera extends LinearOpMode {
     // Detector object
     private GoldAlignDetector detector;
 
@@ -106,78 +105,64 @@ public class Auto_4788_PhoneCamera extends LinearOpMode
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
 
+        // Wait for the game to start (driver presses PLAY)
+        waitForStart();
+        runtime.reset();
+
+        // run until the end of the match (driver presses STOP)
+        while (opModeIsActive()) {
 
 
 
+        telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral?
+        telemetry.addData("X Pos" , detector.getXPosition()); // Gold X position.
+        
+        //===================================================
+        //Gold Vision Tracking Start /Put Your Main Code here
+        //===================================================
+        double goal = 300;
+        double Rgoal = 350;
+        double Lgoal = 250;
 
+        double kP = -0.01;
+        double output;
+        double error;
+        double visionRightPowerStraight = 1.0;
+        double visionLeftPowerStraight = 1.0;
+ 
+ 
+ 
+        if (detector.getXPosition() < 350 && detector.getXPosition() > 250) { // If object is directly in front of it
+            leftDrive.setPower(-visionLeftPowerStraight);
+            rightDrive.setPower(-visionRightPowerStraight);
 
+        }
 
+        if (detector.getXPosition() > Rgoal) { // If object is on the right 
+            error = goal - detector.getXPosition();
 
+            output = kP * error;
 
+            leftDrive.setPower(output);
+            rightDrive.setPower(-output);
+        }
 
+        if (detector.getXPosition() < Lgoal) { // If object is on the left
+            error = goal - detector.getXPosition();
 
-         // Wait for the game to start (driver presses PLAY)
-         waitForStart();
-         runtime.reset();
- 
-         // run until the end of the match (driver presses STOP)
-         while (opModeIsActive()) {
- 
- 
- 
-         telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral?
-         telemetry.addData("X Pos" , detector.getXPosition()); // Gold X position.
-         
-         //===================================================
-         //Gold Vision Tracking Start /Put Your Main Code here
-         //===================================================
-         double goal = 300;
-         double Rgoal = 350;
-         double Lgoal = 250;
- 
-         double kP = -0.01;
-         double output;
-         double error;
-         double visionRightPowerStraight = 1.0;
-         double visionLeftPowerStraight = 1.0;
- 
- 
- 
-             if (detector.getXPosition() < 350 && detector.getXPosition() > 250) { // If object is directly in front of it
-                 leftDrive.setPower(-visionLeftPowerStraight);
-                 rightDrive.setPower(-visionRightPowerStraight);
- 
-             }
- 
-             if (detector.getXPosition() > Rgoal) { // If object is on the right 
-                 error = goal - detector.getXPosition();
- 
-                 output = kP * error;
-     
-                 leftDrive.setPower(output);
-                 rightDrive.setPower(-output);
-             }
- 
-             if (detector.getXPosition() < Lgoal) { // If object is on the left
-                 error = goal - detector.getXPosition();
- 
-                 output = kP * error;
-     
-                 leftDrive.setPower(-output);
-                 rightDrive.setPower(output);
-                 
-             }
+            output = kP * error;
+
+            leftDrive.setPower(-output);
+            rightDrive.setPower(output);
             
- 
- 
- 
- 
-             // ---------------------------------------------------------------------------------
-             // Show the elapsed game time and wheel power.
-             telemetry.addData("Status", "Run Time: " + runtime.toString());
-             //telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-             telemetry.update();
-         }
+        }
+
+        // ---------------------------------------------------------------------------------
+        // Show the elapsed game time and wheel power.
+        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        //telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        telemetry.update();
+    }
 
 
 

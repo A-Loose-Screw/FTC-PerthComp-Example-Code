@@ -65,8 +65,6 @@ public class Auto_4788_ExternalCamera extends LinearOpMode {
     
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
-    //private DcMotor hexDrive1 = null;
-    //private DcMotor hexDrive2 = null;
 
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
     // Valid choices are:  BACK or FRONT
@@ -84,89 +82,88 @@ public class Auto_4788_ExternalCamera extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-          // Default webcam name
-          webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        // Default webcam name
+        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
-          // Set up parameters for Vuforia
-          int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-          VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-  
-          // Vuforia licence key
-          parameters.vuforiaLicenseKey = "AXaCj/3/////AAABmUzcrisvx0PutYdHAGy1V7FtTHCds9DE5p07vCMF4yHeSckVBZjgIUxogVRXLrTYGhGfWnBjK8qdR6M0L8+Hmhgka3pVPvIzc4xXqkFfDRJstgVlh93pdoQMcUTAUeLTQAoVp3PYMI7YiXGJxZ7kAEg1mZn4mbbXNBLZj/99ejGvXIAAC+VSDL3OjvIdbB4zw1hFn2zssPm8p2HPkbjYEFrlh/ZNhyiV2EQwU+DDZYvVWAVWoY4wh4JMniPSDcwM7U9UE6tgpurqphrFxogLi8j6vKwn3tZwbKUYzq9GjB7gueLUfLZwced7s09e6Ijkip/JWQcqr9jduWA/oI7qiyRkWxGN1Xmc4ahK+U3qtvC6";
-          parameters.fillCameraMonitorViewParent = true;
-  
-          // Set camera name for Vuforia config
-          parameters.cameraName = webcamName;
-  
-          // Create Dogeforia object
-          vuforia = new Dogeforia(parameters);
-          vuforia.enableConvertFrameToBitmap();
-  
-          //Setup trackables
-          VuforiaTrackables targetsRoverRuckus = this.vuforia.loadTrackablesFromAsset("RoverRuckus");
-          VuforiaTrackable blueRover = targetsRoverRuckus.get(0);
-          blueRover.setName("Blue-Rover");
-          VuforiaTrackable redFootprint = targetsRoverRuckus.get(1);
-          redFootprint.setName("Red-Footprint");
-          VuforiaTrackable frontCraters = targetsRoverRuckus.get(2);
-          frontCraters.setName("Front-Craters");
-          VuforiaTrackable backSpace = targetsRoverRuckus.get(3);
-          backSpace.setName("Back-Space");
-  
-          // For convenience, gather together all the trackable objects in one easily-iterable collection */
-          allTrackables.addAll(targetsRoverRuckus);
-  
-          OpenGLMatrix blueRoverLocationOnField = OpenGLMatrix
-                  .translation(0, mmFTCFieldWidth, mmTargetHeight)
-                  .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 0));
-          blueRover.setLocation(blueRoverLocationOnField);
-  
-          OpenGLMatrix redFootprintLocationOnField = OpenGLMatrix
-                  .translation(0, -mmFTCFieldWidth, mmTargetHeight)
-                  .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 180));
-          redFootprint.setLocation(redFootprintLocationOnField);
-  
-          OpenGLMatrix frontCratersLocationOnField = OpenGLMatrix
-                  .translation(-mmFTCFieldWidth, 0, mmTargetHeight)
-                  .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0 , 90));
-          frontCraters.setLocation(frontCratersLocationOnField);
-  
-          OpenGLMatrix backSpaceLocationOnField = OpenGLMatrix
-                  .translation(mmFTCFieldWidth, 0, mmTargetHeight)
-                  .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90));
-          backSpace.setLocation(backSpaceLocationOnField);
-  
-  
-          final int CAMERA_FORWARD_DISPLACEMENT  = 110;   // eg: Camera is 110 mm in front of robot center
-          final int CAMERA_VERTICAL_DISPLACEMENT = 200;   // eg: Camera is 200 mm above ground
-          final int CAMERA_LEFT_DISPLACEMENT     = 0;     // eg: Camera is ON the robot's center line
-  
-          OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
-                  .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
-                  .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES,
-                          CAMERA_CHOICE == FRONT ? 90 : -90, 0, 0));
-  
-          for (VuforiaTrackable trackable : allTrackables)
-          {
-              ((VuforiaTrackableDefaultListener)trackable.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
-          }
-  
-          // Activate the targets
-          targetsRoverRuckus.activate();
-  
-          // Initialize the detector
-          detector = new GoldAlignDetector();
-          detector.init(hardwareMap.appContext,CameraViewDisplay.getInstance(), 0, true);
-          detector.useDefaults();
-          detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
-          //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
-          detector.downscale = 0.4;
-  
-          // Set the detector
-          vuforia.setDogeCVDetector(detector);
-          vuforia.enableDogeCV();
-          vuforia.showDebug();
-          vuforia.start();
+        // Set up parameters for Vuforia
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        // Vuforia licence key
+        parameters.vuforiaLicenseKey = "AXaCj/3/////AAABmUzcrisvx0PutYdHAGy1V7FtTHCds9DE5p07vCMF4yHeSckVBZjgIUxogVRXLrTYGhGfWnBjK8qdR6M0L8+Hmhgka3pVPvIzc4xXqkFfDRJstgVlh93pdoQMcUTAUeLTQAoVp3PYMI7YiXGJxZ7kAEg1mZn4mbbXNBLZj/99ejGvXIAAC+VSDL3OjvIdbB4zw1hFn2zssPm8p2HPkbjYEFrlh/ZNhyiV2EQwU+DDZYvVWAVWoY4wh4JMniPSDcwM7U9UE6tgpurqphrFxogLi8j6vKwn3tZwbKUYzq9GjB7gueLUfLZwced7s09e6Ijkip/JWQcqr9jduWA/oI7qiyRkWxGN1Xmc4ahK+U3qtvC6";
+        parameters.fillCameraMonitorViewParent = true;
+
+        // Set camera name for Vuforia config
+        parameters.cameraName = webcamName;
+
+        // Create Dogeforia object
+        vuforia = new Dogeforia(parameters);
+        vuforia.enableConvertFrameToBitmap();
+
+        //Setup trackables
+        VuforiaTrackables targetsRoverRuckus = this.vuforia.loadTrackablesFromAsset("RoverRuckus");
+        VuforiaTrackable blueRover = targetsRoverRuckus.get(0);
+        blueRover.setName("Blue-Rover");
+        VuforiaTrackable redFootprint = targetsRoverRuckus.get(1);
+        redFootprint.setName("Red-Footprint");
+        VuforiaTrackable frontCraters = targetsRoverRuckus.get(2);
+        frontCraters.setName("Front-Craters");
+        VuforiaTrackable backSpace = targetsRoverRuckus.get(3);
+        backSpace.setName("Back-Space");
+
+        // For convenience, gather together all the trackable objects in one easily-iterable collection */
+        allTrackables.addAll(targetsRoverRuckus);
+
+        OpenGLMatrix blueRoverLocationOnField = OpenGLMatrix
+        .translation(0, mmFTCFieldWidth, mmTargetHeight)
+        .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 0));
+        blueRover.setLocation(blueRoverLocationOnField);
+
+        OpenGLMatrix redFootprintLocationOnField = OpenGLMatrix
+        .translation(0, -mmFTCFieldWidth, mmTargetHeight)
+        .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 180));
+        redFootprint.setLocation(redFootprintLocationOnField);
+
+        OpenGLMatrix frontCratersLocationOnField = OpenGLMatrix
+        .translation(-mmFTCFieldWidth, 0, mmTargetHeight)
+        .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0 , 90));
+        frontCraters.setLocation(frontCratersLocationOnField);
+
+        OpenGLMatrix backSpaceLocationOnField = OpenGLMatrix
+        .translation(mmFTCFieldWidth, 0, mmTargetHeight)
+        .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90));
+        backSpace.setLocation(backSpaceLocationOnField);
+
+
+        final int CAMERA_FORWARD_DISPLACEMENT  = 110;   // eg: Camera is 110 mm in front of robot center
+        final int CAMERA_VERTICAL_DISPLACEMENT = 200;   // eg: Camera is 200 mm above ground
+        final int CAMERA_LEFT_DISPLACEMENT     = 0;     // eg: Camera is ON the robot's center line
+
+        OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
+        .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
+        .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES,
+        CAMERA_CHOICE == FRONT ? 90 : -90, 0, 0));
+
+        for (VuforiaTrackable trackable : allTrackables) {
+            ((VuforiaTrackableDefaultListener)trackable.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
+        }
+
+        // Activate the targets
+        targetsRoverRuckus.activate();
+
+        // Initialize the detector
+        detector = new GoldAlignDetector();
+        detector.init(hardwareMap.appContext,CameraViewDisplay.getInstance(), 0, true);
+        detector.useDefaults();
+        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+        //detector.perfectAreaScorer.perfectArea = 10000; // if using PERFECT_AREA scoring
+        detector.downscale = 0.4;
+
+        // Set the detector
+        vuforia.setDogeCVDetector(detector);
+        vuforia.enableDogeCV();
+        vuforia.showDebug();
+        vuforia.start();
 
 
         telemetry.addData("Status", "Initialized");
@@ -187,13 +184,6 @@ public class Auto_4788_ExternalCamera extends LinearOpMode {
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        //hexDrive1.setDirection(DcMotor.Direction.FORWARD);
-        //hexDrive1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        //hexDrive2.setDirection(DcMotor.Direction.FORWARD);
-        //hexDrive2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -205,55 +195,61 @@ public class Auto_4788_ExternalCamera extends LinearOpMode {
 
 
 
-        telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral?
-        telemetry.addData("X Pos" , detector.getXPosition()); // Gold X position.
-        targetVisible = false;
-        for (VuforiaTrackable trackable : allTrackables) {
-            if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
-                telemetry.addData("Visible Target", trackable.getName());
-                targetVisible = true;
+            telemetry.addData("IsAligned" , detector.getAligned()); // Is the bot aligned with the gold mineral?
+            telemetry.addData("X Pos" , detector.getXPosition()); // Gold X position.
+            targetVisible = false;
+            for (VuforiaTrackable trackable : allTrackables) {
+                if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+                    telemetry.addData("Visible Target", trackable.getName());
+                    targetVisible = true;
 
-                // getUpdatedRobotLocation() will return null if no new information is available since
-                // the last time that call was made, or if the trackable is not currently visible.
-                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
-                if (robotLocationTransform != null) {
-                    lastLocation = robotLocationTransform;
+                    // getUpdatedRobotLocation() will return null if no new information is available since
+                    // the last time that call was made, or if the trackable is not currently visible.
+                    OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                    if (robotLocationTransform != null) {
+                        lastLocation = robotLocationTransform;
+                    }
+                    break;
                 }
-                break;
             }
-        }
 
-        // Provide feedback as to where the robot is located (if we know).
-        if (targetVisible) {
-            // express position (translation) of robot in inches.
-            VectorF translation = lastLocation.getTranslation();
-            telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                    translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+            // Provide feedback as to where the robot is located (if we know).
+            if (targetVisible) {
+                // express position (translation) of robot in inches.
+                VectorF translation = lastLocation.getTranslation();
+                telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
 
-            // express the rotation of the robot in degrees.
-            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-            telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
-        }
-        else {
-            telemetry.addData("Visible Target", "none");
-        }
-
-
-        //===================================================
-        //Gold Vision Tracking Start /Put Your Main Code here
-        //===================================================
-        double goal = 300;
-        double Rgoal = 350;
-        double Lgoal = 250;
-
-        double kP = -0.01;
-        double output;
-        double error;
-        double visionRightPowerStraight = 1.0;
-        double visionLeftPowerStraight = 1.0;
+                // express the rotation of the robot in degrees.
+                Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+            }
+            else {
+                telemetry.addData("Visible Target", "none");
+            }
 
 
+            //===================================================
+            //Gold Vision Tracking Start /Put Your Main Code here
+            //===================================================
+            double goal = 300;
+            double Rgoal = 350;
+            double Lgoal = 250;
 
+            double kP = -0.01;
+            double kI = 0;
+            double kD = 0;
+            double output;
+            double error;
+            double sum;
+            double dt; // this is not calculated (But you would if you were using it)
+            double previousError;
+            double visionRightPowerStraight = 1.0;
+            double visionLeftPowerStraight = 1.0;
+
+            /** Below is a use for basic vision tracking and object following, this can be
+             * greatly improved apon using PID rather than just proportional control
+             */
             if (targetVisible = true) { // If object is directly in front of it
                 leftDrive.setPower(-visionLeftPowerStraight);
                 rightDrive.setPower(-visionRightPowerStraight);
@@ -278,10 +274,21 @@ public class Auto_4788_ExternalCamera extends LinearOpMode {
                 rightDrive.setPower(output);
                 
             }
-           
 
+            // Below is an example using full PID for the same follower as above
+            // double PIDCalc(double kP, double kI, double kD, double dt, double goal) {
+            //     double error = goal - input;
+            //     double derror = (error - previousError)/dt;
+            //     sum = sum + error * dt;
 
-
+            //     double output = kP * error + kI * sum + kD * derror;
+            //     return output;
+            // }
+            
+            // leftPower = -PIDCalc(kP, kI, kD, dt, goal);
+            // rightPower = PIDCalc(kP, kI, kD, dt, goal);
+            // leftDrive.setPower(leftPower, rightPower);
+        
 
             // ---------------------------------------------------------------------------------
             // Show the elapsed game time and wheel power.

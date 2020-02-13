@@ -313,7 +313,6 @@ public class VuforiaWebcamTesting extends OpMode
     public void stop() {
         vuforia.stop();
         detector.disable();
-
     }
 
 }
